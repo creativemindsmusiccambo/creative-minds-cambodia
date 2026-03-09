@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Track - Creative Minds Cambodia</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f0f1a;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .logo-text span {
+      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .track-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .album-art {
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin: 0 auto 30px;
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+    }
+    
+    .track-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .track-artist {
+      font-size: 16px;
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+    
+    .track-description {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    
+    .tag {
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+    
+    .play-button {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .play-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.5);
+    }
+    
+    .play-button svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+      margin-left: 4px;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 30px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    
+    .stats span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: white;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    
+    .cta-button:hover {
+      opacity: 0.9;
+    }
+    
+    .not-found {
+      text-align: center;
+      color: #64748b;
+    }
+    
+    .not-found h2 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .audio-player {
+      width: 100%;
+      margin: 20px 0;
+    }
+    
+    audio {
+      width: 100%;
+      height: 40px;
+    }
+    
+    audio::-webkit-media-controls-panel {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="logo">
+    <div class="logo-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/>
+      </svg>
+    </div>
+    <span class="logo-text">Creative Minds <span>Cambodia</span></span>
+  </a>
+
+  <div id="track-container" class="track-card">
+    <!-- Content will be loaded from URL parameters -->
+  </div>
+
+  <script>
+    // Parse URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get('title') || 'Unknown Track';
+    const artist = params.get('artist') || 'Creative Minds Cambodia';
+    const description = params.get('desc') || '';
+    const tags = params.get('tags') || '';
+    const audioUrl = params.get('audio') || '';
+    const coverUrl = params.get('cover') || 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop';
+    
+    const container = document.getElementById('track-container');
+    
+    if (title === 'Unknown Track' && !audioUrl) {
+      container.innerHTML = `
+        <div class="not-found">
+          <h2>🎵</h2>
+          <p>No track information found.</p>
+          <p style="margin-top: 10px; font-size: 14px;">Share a track from the main site to generate a link.</p>
+          <br>
+          <a href="/" class="cta-button">Go to Main Site</a>
+        </div>
+      `;
+    } else {
+      const tagsHtml = tags ? tags.split(',').map(t => `<span class="tag">#${t.trim()}</span>`).join('') : '';
+      
+      container.innerHTML = `
+        <img src="${coverUrl}" alt="${title}" class="album-art">
+        <h1 class="track-title">${title}</h1>
+        <p class="track-artist">by ${artist}</p>
+        ${description ? `<p class="track-description">${description}</p>` : ''}
+        ${tagsHtml ? `<div class="tags">${tagsHtml}</div>` : ''}
+        
+        ${audioUrl ? `
+          <div class="audio-player">
+            <audio controls>
+              <source src="${audioUrl}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        ` : `
+          <button class="play-button" onclick="alert('Audio preview not available for this track')">
+            <svg viewBox="0 0 24 24">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
+          </button>
+        `}
+        
+        <div class="stats">
+          <span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Preview Track
+          </span>
+        </div>
+        
+        <a href="/" class="cta-button">Discover More Music</a>
+      `;
+    }
+  </script>
+</body>
+</html>
